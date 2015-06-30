@@ -1,4 +1,5 @@
 #include "player.h"
+#include <future>
 
 std::string path;
 std::string flags;
@@ -23,5 +24,5 @@ void pausePlayer()
 
 void killPlayer()
 {
-	system("echo \"stop\" > /tmp/OrangeFifo");
+	system("echo \"quit\" > /tmp/OrangeFifo");
 }

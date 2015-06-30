@@ -1,29 +1,22 @@
 #include <iostream>
 #include <thread>
+#include <future>
+#include <chrono>
 #include "player/player.h"
 
-void player();
-void control();
+bool playing;
 
 int main()
 {
 	system("mkfifo /tmp/OrangeFifo");
 
-	setPath("/usr/bin/mplayer", "-really-quiet -slave -input file=/tmp/OrangeFifo"); 
+	setPath("/usr/bin/mplayer", "-slave -really-quiet -input file=/tmp/OrangeFifo"); 
 
-	std::thread first (play, "~/Pizza_Rolls.mp3");
-	std::thread second (control);
+	playing = true;
 
-	second.join();
-	first.join();
-	
-	return 0;
-}
+	std::thread player (play, "~/Music/Panda.Eyes.and.Terminite_High.Score.mp3");
 
-void control()
-{
-	bool yes = true;
-	while(yes)
+	while(playing)
 	{
 		std::cout << "Command" << std::endl;
 		std::cout << "p = toggle pause, q = kill player" << std::endl;
@@ -40,7 +33,7 @@ void control()
 			case 'q':
 			case 'Q':
 				killPlayer();
-				yes = false;
+				playing = false;
 				break;
 
 			default:
@@ -48,4 +41,8 @@ void control()
 				break;
 		}
 	}
+
+	player.join();
+	
+	return 0;
 }
