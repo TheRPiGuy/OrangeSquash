@@ -1,5 +1,6 @@
 #include <iostream>
-#include <future>
+#include <chrono>
+#include <thread>
 #include "player/player.h"
 
 bool playing;
@@ -10,35 +11,19 @@ int main()
 
 	Player go("/usr/bin/mplayer", "-slave -really-quiet", "/tmp/OrangeFifo");
 
-	playing = true;
+	go.play("~/Music/Panda.Eyes.and.Terminite_High.Score.mp3");
 
-	go.play("~/Music/Panda.Eyes.and.Terminite_High.Score.mp3");	
+	std::cout << "Killing mplayer after 30 seconds" << std::endl;
 
-	while(playing)
+	for(int i = 0; i < 30; i++)
 	{
-		std::cout << "Command" << std::endl;
-		std::cout << "p = toggle pause, q = kill player" << std::endl;
-		char in;
-		std::cout << ">>";
-		std::cin >> in;
-		switch(in)
-		{
-			case 'p':
-			case 'P':
-				go.pausePlayer();
-				break;
-
-			case 'q':
-			case 'Q':
-				go.killPlayer();
-				playing = false;
-				break;
-
-			default:
-				std::cout << "Invalid command" << std::endl;
-				break;
-		}
+		std::cout << i << std::endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 	}
+	
+	std::cout << "Killing player\n Exiting program" << std::endl;
+
+	go.killPlayer();
 	
 	return 0;
 }
