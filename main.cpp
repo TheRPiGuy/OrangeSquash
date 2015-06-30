@@ -1,7 +1,5 @@
 #include <iostream>
-#include <thread>
 #include <future>
-#include <chrono>
 #include "player/player.h"
 
 bool playing;
@@ -10,11 +8,11 @@ int main()
 {
 	system("mkfifo /tmp/OrangeFifo");
 
-	setPath("/usr/bin/mplayer", "-slave -really-quiet -input file=/tmp/OrangeFifo"); 
+	Player go("/usr/bin/mplayer", "-slave -really-quiet", "/tmp/OrangeFifo");
 
 	playing = true;
 
-	std::thread player (play, "~/Music/Panda.Eyes.and.Terminite_High.Score.mp3");
+	go.play("~/Music/Panda.Eyes.and.Terminite_High.Score.mp3");	
 
 	while(playing)
 	{
@@ -27,12 +25,12 @@ int main()
 		{
 			case 'p':
 			case 'P':
-				pausePlayer();
+				go.pausePlayer();
 				break;
 
 			case 'q':
 			case 'Q':
-				killPlayer();
+				go.killPlayer();
 				playing = false;
 				break;
 
@@ -41,8 +39,6 @@ int main()
 				break;
 		}
 	}
-
-	player.join();
 	
 	return 0;
 }

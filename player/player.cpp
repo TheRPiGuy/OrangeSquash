@@ -1,28 +1,26 @@
 #include "player.h"
-#include <future>
+#include <thread>
 
-std::string path;
-std::string flags;
-
-void setPath(std::string p, std::string f)
+Player::Player(std::string pth, std::string flgs, std::string fifoPth)
 {
-	path = p;
-	flags = f;
+	path = pth;
+	flags = flgs;
+	fifoPath = fifoPth;
 }
 
-void play(std::string file)
+void Player::play(std::string file)
 {
-	std::string command = path + " " + flags + " " + file;
+	std::string command = path + " " + flags + " -input file=" + fifoPath + " " + file;
 	char * c_command = &command[0u]; //Hacky conversion to c string 
 	system(c_command);
 }
 
-void pausePlayer()
+void Player::pausePlayer()
 {
 	system("echo \"pause\" > /tmp/OrangeFifo");
 }
 
-void killPlayer()
+void Player::killPlayer()
 {
 	system("echo \"quit\" > /tmp/OrangeFifo");
 }
