@@ -11,7 +11,7 @@ int main()
 
 	Player go("/usr/bin/mplayer", "-slave -really-quiet", "/tmp/OrangeFifo");
 
-	go.play("~/Music/Panda.Eyes.and.Terminite_High.Score.mp3");
+	go.play("~/Music/Terminite.and.Panda.Eyes_High.Score.mp3");
 
 	std::cout << "Killing mplayer after 30 seconds" << std::endl;
 
