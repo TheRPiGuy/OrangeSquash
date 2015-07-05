@@ -2,19 +2,21 @@
 #define BUCKET_H_
 
 #include <string>
+#include <deque>
 #include "../song/song.h"
 
 class Bucket
 {
 	private:
-		std::vector <Song> songs;
-		std::vector <std::string> users;
+		std::deque <Song> songs;
+		std::deque <std::string> users;
 		int count;
 	public:
 		Bucket();
 		Song getNextSong();
-		void addSong();
-		bool checkUser();1
+		void addSong(Song s);
+		bool checkUser(std::string u);
+		bool empty();
 };
 
 #endif

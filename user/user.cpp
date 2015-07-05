@@ -5,6 +5,9 @@ User::User(std::string u, std::string pwd, std::string slt)
 	user = u;
 	pwdHash = pwd;
 	salt = slt;
+	//TODO
+	//Come up with a way to generate unique user ids form the given info
+	uid = u;
 }
 
 std::string User::getUser()

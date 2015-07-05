@@ -1,6 +1,6 @@
 CC=g++
 BIN=OrangeSquash
-OBJS=song.o user.o player.o main.o
+OBJS=bucket.o song.o user.o player.o main.o
 FLAGS=-Wall -Werror -c -g --std=c++11
 LIBS=-lpthread
 
@@ -20,6 +20,9 @@ user.o: user/user.h user/user.cpp
 
 song.o: song/song.h song/song.cpp
 	$(CC) $(FLAGS) song/song.cpp
+
+bucket.o: bucket/bucket.h bucket/bucket.cpp
+	$(CC) $(FLAGS) bucket/bucket.cpp
 
 clean:
 	rm -rf $(OBJS) $(BIN)
