@@ -9,14 +9,13 @@ class Bucket
 {
 	private:
 		std::deque <Song> songs;
-		std::deque <std::string> users;
-		int count;
 	public:
-		Bucket();
+		Bucket(){};
 		Song getNextSong();
 		void addSong(Song s);
 		bool checkUser(std::string u);
 		bool empty();
+		void dump();
 };
 
 #endif
