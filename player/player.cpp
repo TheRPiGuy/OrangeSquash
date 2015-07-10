@@ -4,6 +4,7 @@
 #include <chrono>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <signal.h>
 #include <iostream>
 #include <string>
 
@@ -18,7 +19,8 @@ void player(Song s)
 	//char* program = "/usr/bin/mplayer";
 
 	pid_t pid = fork();
-
+	
+	char* path = &s.getPath()[0u];
 	
 	switch(pid)
 	{
@@ -27,7 +29,7 @@ void player(Song s)
 			exit(1);
 
 		case 0: /* Child process */
-			execl("usr/bin/mplayer", "-really-quiet", "media/test.mp3", NULL); /* Execute the program */
+			execl("/usr/bin/mplayer", "-really-quiet", path, NULL); /* Execute the program */
 
 			std::cerr << "Uh-Oh! execl() failed!"; /* execl doesn't return unless there's an error */
 			exit(1);
@@ -38,7 +40,7 @@ void player(Song s)
 			int status;
 			while(!WIFEXITED(status))
 			{
-				waitpid(pid, status, 0); /* Wait for the process to complete */
+				waitpid(pid, &status, 0); /* Wait for the process to complete */
 			}
 			std::cout << "Process exited with " << WEXITSTATUS(status) << "\n";  	
 	}
