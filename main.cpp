@@ -17,16 +17,18 @@ int main()
 	
 	Playlist list;
 	list.queueSong(a);
-
-	try
+	
+	while(true)
 	{
-		Song b = list.getSong();
-		player(b);
+		try
+		{
+			Song b = list.getSong();
+			player(b);
+		}
+		catch(std::string e)
+		{
+			std::cout << e << std::endl;
+		}	
 	}
-	catch(std::string e)
-	{
-		std::cout << e << std::endl;
-	}	
-
 	return 0;
 }

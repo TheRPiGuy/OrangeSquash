@@ -24,28 +24,41 @@ void player(Song s)
 	
 	switch(pid_player)
 	{
-		case -1: /* Error */
-			std::cerr << "Uh-Oh! fork() failed.\n";
+		case -1: // Error
+			std::cerr << "Uh-Oh! fork() failed." << std::endl;
 			exit(1);
 
-		case 0: /* Child process */
-			execl("/usr/bin/mplayer", "-slave", "-really-quiet", path, NULL); /* Execute the program */
+		case 0: // Child process
+			execl("/usr/bin/mplayer", "-slave", "-really-quiet", path, NULL); // Execute the program
 
-			std::cerr << "Uh-Oh! execl() failed!"; /* execl doesn't return unless there's an error */
+			std::cerr << "Uh-Oh! execl() failed!" << std::endl; // execl doesn't return unless there's an error
 			exit(1);
 
-		default: /* Parent process */
-			std::cout << "Process created with pid " << pid_player << "\n";
+		default: // Parent process
+			std::cout << "Process created with pid " << pid_player <<  std::endl;
         	
 			int status;
-			while(!WIFEXITED(status))
+			int times = 0;
+			while (times < 547)
 			{
-				waitpid(pid_player, &status, 0); /* Wait for the process to complete */
+				sleep(1); // sleep 1 second
+				if ((waitpid(-1, &status, WNOHANG)) < 0)
+				{
+					std::cerr << "waitpid" << std::endl;
+					exit(1);
+				}
+				if (WIFEXITED(status))// || WIFSIGNALED(status))
+				{
+					/* it's done */
+        			break;
+				}
+				times++;
 			}
-			std::cout << "Process exited with " << WEXITSTATUS(status) << std::endl;  	
+			if (times == 547)
+			{
+				kill(pid_player, SIGKILL);
+			}
 	}
-		
-	//Once either of these child processes had ended, kill the other
 	//Exit cleanly
 }
 
