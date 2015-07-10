@@ -10,12 +10,11 @@ class Bucket
 	private:
 		std::deque <Song> songs;
 	public:
-		Bucket(){};
+		Bucket(){}; //Buckets are created as completly empty
 		Song getNextSong();
 		void addSong(Song s);
 		bool checkUser(std::string u);
 		bool empty();
-		void dump();
 };
 
 #endif

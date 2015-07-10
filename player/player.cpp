@@ -1,25 +1,49 @@
 #include "player.h"
 
-Player::Player(std::string pth, std::string flgs, std::string fifoPth)
+#include <thread>
+#include <chrono>
+#include <unistd.h>
+#include <sys/wait.h>
+#include <iostream>
+#include <string>
+
+
+void player(Song s)
 {
-	path = pth;
-	flags = flgs;
-	fifoPath = fifoPth;
+	//Verify song file exists at specify path
+	//Fork two processes
+	//*Start mplayer
+	//*Thread that sleeps for a specified time and then exits cleanly
+	
+	//char* program = "/usr/bin/mplayer";
+
+	pid_t pid = fork();
+
+	
+	switch(pid)
+	{
+		case -1: /* Error */
+			std::cerr << "Uh-Oh! fork() failed.\n";
+			exit(1);
+
+		case 0: /* Child process */
+			execl("usr/bin/mplayer", "-really-quiet", "media/test.mp3", NULL); /* Execute the program */
+
+			std::cerr << "Uh-Oh! execl() failed!"; /* execl doesn't return unless there's an error */
+			exit(1);
+
+		default: /* Parent process */
+			std::cout << "Process created with pid " << pid << "\n";
+        	
+			int status;
+			while(!WIFEXITED(status))
+			{
+				waitpid(pid, status, 0); /* Wait for the process to complete */
+			}
+			std::cout << "Process exited with " << WEXITSTATUS(status) << "\n";  	
+	}
+		
+	//Once either of these child processes had ended, kill the other
+	//Exit cleanly
 }
 
-void Player::play(std::string file)
-{
-	std::string command = path + " " + flags + " -input file=" + fifoPath + " " + file + "&";
-	char * c_command = &command[0u]; //Hacky conversion to c string 
-	system(c_command);
-}
-
-void Player::pausePlayer()
-{
-	system("echo \"pause\" > /tmp/OrangeFifo");
-}
-
-void Player::killPlayer()
-{
-	system("echo \"quit\" > /tmp/OrangeFifo");
-}

@@ -1,5 +1,4 @@
 #include "bucket.h"
-#include <iostream>
 
 Song Bucket::getNextSong()
 {
@@ -37,12 +36,4 @@ bool Bucket::checkUser(std::string u)
 bool Bucket::empty()
 {
 	return (songs.size() == 0);
-}
-
-void Bucket::dump()
-{
-	for(auto s: songs)
-	{
-		std::cout << s.getPath() << " - " << s.getUid() << std::endl;
-	}
 }

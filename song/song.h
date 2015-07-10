@@ -7,12 +7,12 @@ class Song
 {
 	private:
 		std::string path;
-		int length;
+		std::string name;
 		std::string uid;
 	public:
-		Song(std::string p, int l, std::string u);
+		Song(std::string p, std::string n, std::string u);
 		std::string getPath();
-		int getLength();
+		std::string getName();
 		std::string getUid();
 };
 

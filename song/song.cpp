@@ -1,9 +1,9 @@
 #include "song.h"
 
-Song::Song(std::string p, int l, std::string u)
+Song::Song(std::string p, std::string n, std::string u)
 {
 	path = p;
-	length = l;
+	name = n;
 	uid = u;
 }
 
@@ -11,10 +11,10 @@ std::string Song::getPath()
 {
 	return path;
 }
-
-int Song::getLength()
+	
+std::string Song::getName()
 {
-	return length;
+	return name;
 }
 
 std::string Song::getUid()
