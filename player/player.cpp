@@ -11,12 +11,15 @@
 
 void player(Song s)
 {
-	//Verify song file exists at specify path
-	//Fork two processes
-	//*Start mplayer
-	//*Thread that sleeps for a specified time and then exits cleanly
+	// Fork processe of player
+	// Use waitpid on the player process to wait fro exit within a while loop that has a timeout
+	// If the player exits, the while loop breaks
+	// If timeout is reached, the while loop breaks
+	// The player process is kill form its pid after the loop exits
 	
-	//char* program = "/usr/bin/mplayer";
+	std::string time = "30";
+
+	char* timeout = &time[0u];
 
 	pid_t pid_player = fork();
 	
@@ -24,41 +27,38 @@ void player(Song s)
 	
 	switch(pid_player)
 	{
-		case -1: // Error
-			std::cerr << "Uh-Oh! fork() failed." << std::endl;
-			exit(1);
-
-		case 0: // Child process
-			execl("/usr/bin/mplayer", "-slave", "-really-quiet", path, NULL); // Execute the program
-
-			std::cerr << "Uh-Oh! execl() failed!" << std::endl; // execl doesn't return unless there's an error
-			exit(1);
-
-		default: // Parent process
-			std::cout << "Process created with pid " << pid_player <<  std::endl;
-        	
-			int status;
-			int times = 0;
-			while (times < 547)
+		case -1: // Error in fork
+		{
+			std::string message1 = "Uh-Oh! fork() failed.";
+			throw message1;
+		}
+		case 0: // Child process from fork
+		{
+			// Execute the program
+			execl("/usr/bin/mplayer", "-slave", "-input", "file=/tmp/OrangeFifo", path, "-fs", "-really-quiet", "-endpos", timeout, NULL);
+			//execl doesn't return unless there's an error	
+			std::string message2 = "Uh-Oh! execl() failed!";
+			throw message2;
+		}
+		default: // Parent process from fork
+		{
+			std::cout << "Now playing: " << s.getName() << std::endl;
+			int status = 200;
+			while(true)
 			{
-				sleep(1); // sleep 1 second
-				if ((waitpid(-1, &status, WNOHANG)) < 0)
+				pid_t rc = waitpid(pid_player, &status, WNOHANG);
+				if (rc < 0)
 				{
-					std::cerr << "waitpid" << std::endl;
+					std::cerr << "Player has failed" << std::endl;
 					exit(1);
 				}
-				if (WIFEXITED(status))// || WIFSIGNALED(status))
+				if(status == 0)
 				{
-					/* it's done */
+					// it's done
         			break;
 				}
-				times++;
+				sleep(1);
 			}
-			if (times == 547)
-			{
-				kill(pid_player, SIGKILL);
-			}
-	}
-	//Exit cleanly
+		}
+	}		
 }
-

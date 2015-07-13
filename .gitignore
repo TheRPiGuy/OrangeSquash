@@ -32,3 +32,7 @@ OrangeSquash
 
 # The TODO list 
 TODO
+
+# The test files
+*.mp4
+*.mp3
