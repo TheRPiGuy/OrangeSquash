@@ -1,8 +1,7 @@
 #include <iostream>
 #include <string>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
+#include <thread>
+#include <chrono>
 #include "song/song.h"
 #include "playlist/playlist.h"
 #include "player/player.h"
@@ -21,8 +20,6 @@ int main()
 	Playlist list;
 	list.queueSong(a);
 
-	mkfifo("/tmp/OrangeFifo", 0666);
-	
 	while(true)
 	{
 		try
@@ -41,7 +38,7 @@ int main()
 		{
 			std::cout << e << std::endl;
 		}
-		sleep(1);
+		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 	}
 	return 0;
 }

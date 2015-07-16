@@ -8,3 +8,18 @@ Uses standard C++ libraries and requires mplayer to be installed and accessed at
 This project is not yet completed, but if you want to try it out, run the Makefile using the make the commnd and execute the compiled binary using "./OrangeSquash"
 
 During development of this project files will continually be changing and new files added. The main.cpp file contains some semblance to what the final program may contain but may also frequently contain temporary test code.
+
+#Known Issues
+
+-mplayer becomes a zombie process if forcibly killed
+	-temporary solution is to have mplayer use its internal timeout function
+	-mplayer cannot be killed safely from the main program and has to be terminated via keyboard or internal timout
+
+-mplayer can still recieve regular keyboard input
+	-this is needed to stop mplayer if need be (ie banned song)
+	-relates to issue above
+
+-front end development is at a halt
+	-I dont have a clear ideaa of how to get requests from the web to the backend
+	-Could do javascript -> JSON -> JSON parser in C++ but seems insecure/too hacky/unstable
+	-Also need to find a way to internally serve http requests in C++ (pls no boost library)

@@ -1,10 +1,10 @@
 #include "player.h"
 
-#include <unistd.h>
-#include <sys/time.h>
-#include <sys/resource.h>
-#include <sys/wait.h>
-#include <signal.h>
+#include <unistd.h>		//fork()
+#include <sys/wait.h>	//waitpid()
+#include <signal.h>		//program exit signals
+#include <thread>
+#include <chrono>
 #include <iostream>
 #include <string>
 
@@ -57,7 +57,7 @@ void player(Song s)
 					// it's done
         			break;
 				}
-				sleep(1);
+				std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 			}
 		}
 	}		
