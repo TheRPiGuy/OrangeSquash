@@ -19,8 +19,6 @@ void player(Song s)
 	
 	std::string time = "30";
 
-	char* timeout = &time[0u];
-
 	pid_t pid_player = fork();
 	
 	char* path = &s.getPath()[0u];
@@ -35,7 +33,7 @@ void player(Song s)
 		case 0: // Child process from fork
 		{
 			// Execute the program
-			execl("/usr/bin/mplayer", "-slave", "-input", "file=/tmp/OrangeFifo", path, "-fs", "-really-quiet", "-endpos", timeout, NULL);
+			execl("/usr/bin/mplayer", "-slave", "-input", "file=/tmp/OrangeFifo", path, "-fs", "-really-quiet", "-endpos", time.c_str(), NULL);
 			//execl doesn't return unless there's an error	
 			std::string message2 = "Uh-Oh! execl() failed!";
 			throw message2;
