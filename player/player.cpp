@@ -1,21 +1,21 @@
-#include "player.h"
+#include "player.hpp"
 
 #include <unistd.h>		//fork()
 #include <sys/wait.h>	//waitpid()
 #include <signal.h>		//program exit signals
-#include <thread>
-#include <chrono>
+#include <thread>		//this::thread::sleepfor
+#include <chrono>		//chrono::milliseconds
 #include <iostream>
 #include <string>
 
 
 void player(Song s)
 {
-	// Fork processe of player
-	// Use waitpid on the player process to wait fro exit within a while loop that has a timeout
+	// Fork process of player
+	// Use waitpid on the player process to wait for exit within a while loop that has a timeout
 	// If the player exits, the while loop breaks
 	// If timeout is reached, the while loop breaks
-	// The player process is kill form its pid after the loop exits
+	// The player process is killed from its pid after the loop exits
 	
 	std::string time = "30";
 
@@ -33,7 +33,7 @@ void player(Song s)
 		case 0: // Child process from fork
 		{
 			// Execute the program
-			execl("/usr/bin/mplayer", "-slave", "-input", "file=/tmp/OrangeFifo", path, "-fs", "-really-quiet", "-endpos", time.c_str(), NULL);
+			execl("/usr/bin/mplayer", "-slave", "-input", "file=/tmp/OrangeFifo", path, "-fs", "-really-quiet", "-vo", "sdl", "-endpos", time.c_str(), NULL);
 			//execl doesn't return unless there's an error	
 			std::string message2 = "Uh-Oh! execl() failed!";
 			throw message2;
