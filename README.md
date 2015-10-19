@@ -13,17 +13,17 @@ During development of this project files will continually be changing and new fi
 ##Known Issues
 
 mplayer may become a zombie process if forcibly killed
-	* temporary solution is to have mplayer use its internal timeout function
-	* mplayer cannot be killed safely from the main program and has to be terminated via keyboard or internal timout
+* temporary solution is to have mplayer use its internal timeout function
+* mplayer cannot be killed safely from the main program and has to be terminated via keyboard or internal timout
 
 mplayer can still recieve regular keyboard input
-	* this is needed to stop mplayer if need be (ie banned song)
-	* relates to issue above
+* this is needed to stop mplayer if need be (ie banned song)
+* relates to issue above
 
 Web front-end development is at a halt
-	* I dont have a clear idea of how to get requests from the web to the backend
-	* Could do javascript -> JSON -> JSON parser in C++ but seems insecure/too hacky/unstable
-	* Also need to find a way to internally serve http requests in C++ 
+* I dont have a clear idea of how to get requests from the web to the backend
+* Could do javascript -> JSON -> JSON parser in C++ but seems insecure/too hacky/unstable
+* Also need to find a way to internally serve http requests in C++ 
 
 ##TODO
 
