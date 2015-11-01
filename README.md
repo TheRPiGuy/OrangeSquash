@@ -28,6 +28,8 @@ Web front-end development is at a halt
 ##TODO
 
 * Finalise a stable player service that uses mplayer
-* Add a simple terminal based user login system (for testing and/or other purposes)
+* Finalise and secure the queue system
+* Add the youtube-dl system to auto download and add videos to queue
+* Terminal print out of current state of entire queue
 * Prevent more than one instance of the program being run at the same time
 * The entire web front-end side (-_-)

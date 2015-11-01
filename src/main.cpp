@@ -14,7 +14,7 @@ int main()
 	//*Request object -> youtubedl -> song object -> pushed into bucket deque
 	//*Pull next song from deque -> play -> terminate after song end or after certain time -> cleanup files
 	//Run * processes in parallel
-	Song a("/home/jai/Videos/test.mp4", "Test Song", "XKCD_");
+	Song a("media/test.mp4", "Test Song", "XKCD_");
 	std::cout << "Created song: " << a.getPath() << " " << a.getName() << " " << a.getUid() << std::endl;
 	
 	Playlist list;
