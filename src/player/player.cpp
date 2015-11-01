@@ -12,16 +12,12 @@
 void player(Song s)
 {
 	// Fork process of player
-	// Use waitpid on the player process to wait for exit within a while loop that has a timeout
-	// If the player exits, the while loop breaks
-	// If timeout is reached, the while loop breaks
-	// The player process is killed from its pid after the loop exits
+	// Execute mplayer in the child process with internal mplayer timeout
+	// Use waitpid on the player process to wait for exit within a while loo
 	
 	std::string time = "30";
 
 	pid_t pid_player = fork();
-	
-	char* path = &s.getPath()[0u];
 	
 	switch(pid_player)
 	{
@@ -33,7 +29,7 @@ void player(Song s)
 		case 0: // Child process from fork
 		{
 			// Execute the program
-			execl("/usr/bin/mplayer", "-slave", "-input", "file=/tmp/OrangeFifo", path, "-fs", "-really-quiet", "-vo", "sdl", "-endpos", time.c_str(), NULL);
+			execl("/usr/bin/mplayer", "-slave", "-input", "file=/tmp/OrangeFifo", s.getPath().c_str(), "-fs", "-really-quiet", "-vo", "sdl", "-endpos", time.c_str(), NULL);
 			//execl doesn't return unless there's an error	
 			std::string message2 = "Uh-Oh! execl() failed!";
 			throw message2;
