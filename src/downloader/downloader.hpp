@@ -1,12 +1,8 @@
-#ifndef DOWNLOADER_H_
-#define DOWNLOADER_H_
+#ifndef PLAYER_H_
+#define PLAYER_H_
 
-#include <string>
+#include "../song/song.hpp"
 
-class Downloader
-{
-	public:
-	
-}
+void player(Song s);
 
 #endif

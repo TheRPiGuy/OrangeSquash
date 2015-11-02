@@ -8,15 +8,19 @@
 #include <iostream>
 #include <string>
 
+Player::Player(Song s)
+{
+	filePath = s.getPath();
+	songName = s.getName();
+}
 
-void player(Song s)
+void Player::play()
 {
 	// Fork process of player
 	// Execute mplayer in the child process with internal mplayer timeout
 	// Use waitpid on the player process to wait for exit within a while loo
 	
 	// Timeout of the player in seconds
-	std::string timeout = "30";
 	
 	pid_t pid_player = fork();
 	
@@ -24,20 +28,20 @@ void player(Song s)
 	{
 		case -1: // Error in fork
 		{
-			std::string message1 = "Uh-Oh! fork() failed.";
+			std::string message1 = "Uh-Oh! fork() failed.\n Check src/player files";
 			throw message1;
 		}
 		case 0: // Child process from fork
 		{
 			// Execute the program
-			execl("/usr/bin/mplayer", "-slave", "-input", "file=/tmp/OrangeFifo", s.getPath().c_str(), "-fs", "-really-quiet", "-vo", "sdl", "-endpos", timeout.c_str(), NULL);
+			execl(playerPath.c_str(), flags.c_str(), timeout.c_str(), filePath.c_str(), NULL);
 			//execl doesn't return unless there's an error	
-			std::string message2 = "Uh-Oh! execl() failed!";
+			std::string message2 = "Uh-Oh! execl() failed!\n Check src/player files";
 			throw message2;
 		}
 		default: // Parent process from fork
 		{
-			std::cout << "Now playing: " << s.getName() << std::endl;
+			std::cout << "Now playing: " << songName << std::endl;
 			int status = 200;
 			while(true)
 			{
@@ -56,4 +60,10 @@ void player(Song s)
 			}
 		}
 	}		
+}
+
+void Player::stop()
+{
+	//TODO
+	;
 }

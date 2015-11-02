@@ -16,29 +16,9 @@ int main()
 	//Run * processes in parallel
 	Song a("media/test.mp4", "Test Song", "XKCD_");
 	std::cout << "Created song: " << a.getPath() << " " << a.getName() << " " << a.getUid() << std::endl;
-	
-	Playlist list;
-	list.queueSong(a);
 
-	while(true)
-	{
-		try
-		{
-			Song b = list.getSong();
-			try
-			{
-				player(b);
-			}
-			catch(std::string w)
-			{
-				std::cout << w << std::endl;
-			}
-		}
-		catch(std::string e)
-		{
-			std::cout << e << std::endl;
-		}
-		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-	}
+	Player playerObj(a);
+	playerObj.play();
+	
 	return 0;
 }
