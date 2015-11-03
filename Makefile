@@ -1,6 +1,6 @@
 CC=g++
 BIN=OrangeSquash
-OBJS=playlist.o request.o bucket.o song.o player.o main.o
+OBJS=downloader.o playlist.o request.o bucket.o song.o player.o main.o
 FLAGS=-Wall -Werror -c -g --std=c++11
 LIBS=-lpthread
 
@@ -26,6 +26,9 @@ request.o: src/request/request.hpp src/request/request.cpp
 
 playlist.o: src/playlist/playlist.hpp src/playlist/playlist.cpp
 	$(CC) $(FLAGS) src/playlist/playlist.cpp
+
+downloader.o: src/downloader/downloader.hpp src/downloader/downloader.cpp
+	$(CC) $(FLAGS) src/downloader/downloader.cpp
 
 clean:
 	rm -rf $(OBJS) $(BIN)
