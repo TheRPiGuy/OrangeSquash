@@ -1,13 +1,13 @@
 CC=g++
 BIN=OrangeSquash
 OBJS=downloader.o playlist.o request.o bucket.o song.o player.o main.o
-FLAGS=-Wall -Werror -c -g --std=c++11
+FLAGS=-Wall -Werror -c -g --std=c++14
 LIBS=-lpthread
 
 all: $(BIN)
 
 $(BIN): $(OBJS)
-	$(CC) -g $(OBJS) -o $(BIN) $(LIBS)
+	$(CC) -g $(OBJS) -o $(BIN) $(INC) $(LIBS) 
 
 main.o: src/main.cpp
 	$(CC) $(FLAGS) src/main.cpp
